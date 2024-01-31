@@ -19,7 +19,20 @@ app.get('/api/data', async (req, res) => {
     }
 });
 
-// https://api.tvmaze.com/shows/42312
+app.get('/api/data/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const result = await axios.get(`https://api.tvmaze.com/shows/${id}`, {
+            withCredentials: true,
+        });
+        res.json(result.data);
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 app.listen(port, () => {
     console.log(`Proxy server listening at http://localhost:${port}`);
